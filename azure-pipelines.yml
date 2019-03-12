@@ -1,0 +1,37 @@
+pool:
+  vmImage: Hosted Ubuntu 1604
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet build'
+  inputs:
+    projects: '**/*.csproj'
+    arguments: '-c $(BuildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet test'
+  inputs:
+    command: test
+    projects: '**/*.csproj'
+    arguments: '-c $(BuildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet pack'
+  inputs:
+    command: pack
+    nobuild: true
+    versioningScheme: byEnvVar
+    versionEnvVar: VersionNumber
+
+- task: NuGetCommand@2
+  displayName: 'NuGet push'
+  inputs:
+    command: push
+    nuGetFeedType: external
+    publishFeedCredentials: NugetServer
+
+- task: NuGetCommand@2
+  displayName: 'NuGet push copy'
+  inputs:
+    command: push
+    publishVstsFeed: '5eb5f3b7-bf07-4fe8-a61d-00e5f1155ce5'
