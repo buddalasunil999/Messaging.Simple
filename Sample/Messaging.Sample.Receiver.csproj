@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Castle.Windsor" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Messaging.Sample.Messages\Messaging.Sample.Messages.csproj" />
+    <ProjectReference Include="..\Messaging.Simple\Messaging.Simple.csproj" />
+  </ItemGroup>
+
+</Project>

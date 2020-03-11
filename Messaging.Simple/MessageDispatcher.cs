@@ -14,18 +14,22 @@ namespace Messaging.Simple
             this.connectionConfiguration = connectionConfiguration;
         }
 
-        public void Send(string queue, string routingKey, string message)
+        public void Send(string routingKey, string message)
         {
             using (var sender = new Sender(messageLogger, connectionConfiguration))
             {
-                sender.Bind(queue, routingKey);
                 sender.Send(routingKey, message);
             }
         }
 
-        public void Send<T>(string queue, string routingKey, T obj)
+        public void Send<T>(string routingKey, T obj)
         {
-            Send(queue, routingKey, JsonConvert.SerializeObject(obj));
+            Send(routingKey, JsonConvert.SerializeObject(obj));
+        }
+
+        public void Send<T>(T obj)
+        {
+            Send(typeof(T).ToString(), obj);
         }
     }
 }
