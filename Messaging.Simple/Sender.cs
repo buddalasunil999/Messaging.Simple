@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using RabbitMQ.Client;
 
 namespace Messaging.Simple
 {
@@ -7,7 +6,6 @@ namespace Messaging.Simple
     {
         private readonly IMessageLogger messageLogger;
         private readonly ConnectionConfiguration connectionConfiguration;
-        private readonly IBasicProperties properties;
 
         public Sender(IMessageLogger messageLogger,
             ConnectionConfiguration connectionConfiguration)
@@ -15,9 +13,6 @@ namespace Messaging.Simple
         {
             this.messageLogger = messageLogger;
             this.connectionConfiguration = connectionConfiguration;
-
-            properties = Channel.CreateBasicProperties();
-            properties.Persistent = true;
         }
 
         public void Send(string routingKey,
@@ -25,10 +20,16 @@ namespace Messaging.Simple
         {
             var body = Encoding.UTF8.GetBytes(message);
 
+            var properties = Channel.CreateBasicProperties();
+            properties.Persistent = true;
+
+            Channel.ConfirmSelect();
             Channel.BasicPublish(exchange: connectionConfiguration.Exchange,
                 routingKey: routingKey,
                 basicProperties: properties,
+                mandatory:true,
                 body: body);
+            Channel.WaitForConfirms();
 
             messageLogger.Info($" [x] Sent {message}");
         }

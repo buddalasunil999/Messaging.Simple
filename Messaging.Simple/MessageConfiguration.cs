@@ -4,8 +4,14 @@ namespace Messaging.Simple
 {
     public class MessageConfiguration
     {
-        public string Queue { get; set; }
-        public string RoutingKey { get; set; }
+        private string routingKey;
+
+        public string RoutingKey
+        {
+            get => string.IsNullOrEmpty(routingKey) ? Handler.BaseType?.GenericTypeArguments[0].FullName : routingKey;
+            set => routingKey = value;
+        }
+
         public Type Handler { get; set; }
     }
 }
