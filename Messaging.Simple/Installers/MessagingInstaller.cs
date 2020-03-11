@@ -16,7 +16,17 @@ namespace Messaging.Simple.Installers
                     .ImplementedBy<MessageDispatcher>()
                     .LifestyleSingleton(),
                 Component.For<Receiver>()
+                    .LifestyleSingleton(),
+                Component.For<IMessagesReceiver>()
+                    .ImplementedBy<MessagesReceiver>()
                     .LifestyleSingleton());
+            
+            foreach (var type in Helper.GetAllHandlers())
+            {
+                container.Register(
+                    Component.For(type)
+                        .Named(type.FullName));
+            }
         }
     }
 }

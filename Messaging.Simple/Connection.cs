@@ -6,7 +6,7 @@ namespace Messaging.Simple
     public abstract class Connection : IDisposable
     {
         private readonly IMessageLogger messageLogger;
-        private readonly ConnectionConfiguration config;
+        protected readonly ConnectionConfiguration connectionConfiguration;
         private readonly IConnection connection;
         protected readonly IModel Channel;
 
@@ -14,19 +14,39 @@ namespace Messaging.Simple
             ConnectionConfiguration configuration)
         {
             this.messageLogger = messageLogger;
-            config = configuration;
+            connectionConfiguration = configuration;
 
             var factory = new ConnectionFactory
             {
-                HostName = config.HostName,
+                HostName = connectionConfiguration.HostName,
                 AutomaticRecoveryEnabled = true
             };
+            if (!string.IsNullOrEmpty(connectionConfiguration.UserName))
+            {
+                factory.Uri = new Uri(connectionConfiguration.Uri);
+            }
+
             connection = factory.CreateConnection();
             Channel = connection.CreateModel();
-            Channel.ExchangeDeclare(exchange: config.Exchange, type: "direct");
+            Channel.BasicReturn += Channel_BasicReturn;
+
+            Channel.ExchangeDeclare(exchange: connectionConfiguration.Exchange, type: "direct");
+            Channel.ExchangeDeclare(exchange: connectionConfiguration.PoisionExchange, type: "topic");
+            Channel.ExchangeDeclare(exchange: connectionConfiguration.UndeliveredExchange, type: "topic");
+
+            Bind(connectionConfiguration.PoisionQueueName, "#", connectionConfiguration.PoisionExchange);
+            Bind(connectionConfiguration.UndeliveredQueueName, "#", connectionConfiguration.UndeliveredExchange);
         }
 
-        public void Bind(string queue, string routingKey)
+        private void Channel_BasicReturn(object sender, RabbitMQ.Client.Events.BasicReturnEventArgs e)
+        {
+            Channel.BasicPublish(exchange: connectionConfiguration.UndeliveredExchange,
+                routingKey: e.RoutingKey,
+                basicProperties: e.BasicProperties,
+                body: e.Body);
+        }
+
+        public void Bind(string queue, string routingKey, string exchange)
         {
             Channel.QueueDeclare(queue: queue,
                 durable: true,
@@ -35,7 +55,7 @@ namespace Messaging.Simple
                 arguments: null);
 
             Channel.QueueBind(queue: queue,
-                exchange: config.Exchange,
+                exchange: exchange,
                 routingKey: routingKey);
         }
 
@@ -45,7 +65,7 @@ namespace Messaging.Simple
             connection?.Close();
             Channel?.Dispose();
             connection?.Dispose();
-            messageLogger.Info($"Disconnected from RabbitMQ {config.HostName}");
+            messageLogger.Info($"Disconnected from RabbitMQ {connectionConfiguration.HostName}");
         }
     }
 }

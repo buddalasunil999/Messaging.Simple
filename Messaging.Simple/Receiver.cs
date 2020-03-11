@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -21,7 +22,7 @@ namespace Messaging.Simple
 
         public void Run(MessageConfiguration config)
         {
-            Bind(config.Queue, config.RoutingKey);
+            Bind(config.Handler.FullName, config.RoutingKey, connectionConfiguration.Exchange);
 
             Channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
 
@@ -33,7 +34,7 @@ namespace Messaging.Simple
                     var message = Encoding.UTF8.GetString(e.Body);
                     messageLogger.Info($" [x] Received '{e.RoutingKey}':'{message}'");
 
-                    var handler = handlerFactory.Resolve(e.RoutingKey);
+                    var handler = handlerFactory.Resolve(config.Handler.FullName);
                     handler.Handle(message);
                     handlerFactory.Release(handler);
 
@@ -41,12 +42,25 @@ namespace Messaging.Simple
                 }
                 catch (Exception exception)
                 {
+                    Channel.BasicReject(deliveryTag: e.DeliveryTag, requeue: false);
+
+                    if (e.BasicProperties.Headers == null)
+                    {
+                        e.BasicProperties.Headers = new Dictionary<string, object>();
+                    }
+                    e.BasicProperties.Headers.Add("Queue", config.Handler.FullName);
+
+                    Channel.BasicPublish(exchange: connectionConfiguration.PoisionExchange,
+                        routingKey: config.RoutingKey,
+                        basicProperties: e.BasicProperties,
+                        body: e.Body);
+
                     messageLogger.Error(exception);
                     throw;
                 }
             };
 
-            Channel.BasicConsume(queue: config.Queue,
+            Channel.BasicConsume(queue: config.Handler.FullName,
                 autoAck: false,
                 consumer: consumer);
         }
