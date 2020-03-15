@@ -43,7 +43,7 @@ namespace Messaging.Sample.Receiver
                 Component.For<ConnectionConfiguration>()
                     .Instance(new ConnectionConfiguration
                     {
-                        HostName = "13.127.164.156",
+                        HostName = "localhost",
                         Exchange = "test",
                         PoisionExchange = "poision",
                         PoisionQueueName = "poision-queue",
