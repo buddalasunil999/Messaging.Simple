@@ -5,14 +5,12 @@ namespace Messaging.Simple
     public class Sender : Connection
     {
         private readonly IMessageLogger messageLogger;
-        private readonly ConnectionConfiguration connectionConfiguration;
 
         public Sender(IMessageLogger messageLogger,
             ConnectionConfiguration connectionConfiguration)
             : base(messageLogger, connectionConfiguration)
         {
             this.messageLogger = messageLogger;
-            this.connectionConfiguration = connectionConfiguration;
         }
 
         public void Send(string routingKey,

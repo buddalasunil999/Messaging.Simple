@@ -19,12 +19,10 @@ namespace Messaging.Simple
             var factory = new ConnectionFactory
             {
                 HostName = connectionConfiguration.HostName,
-                AutomaticRecoveryEnabled = true
+                AutomaticRecoveryEnabled = true,
+                UserName = connectionConfiguration.UserName,
+                Password = connectionConfiguration.Password                
             };
-            if (!string.IsNullOrEmpty(connectionConfiguration.UserName))
-            {
-                factory.Uri = new Uri(connectionConfiguration.Uri);
-            }
 
             connection = factory.CreateConnection();
             Channel = connection.CreateModel();
