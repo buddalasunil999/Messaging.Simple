@@ -14,18 +14,19 @@ namespace Messaging.Simple.Installers
                     .LifestyleSingleton(),
                 Component.For<IMessageDispatcher>()
                     .ImplementedBy<MessageDispatcher>()
-                    .LifestyleSingleton(),
+                    .LifestyleTransient(),
                 Component.For<Receiver>()
-                    .LifestyleSingleton(),
+                    .LifestyleTransient(),
                 Component.For<IMessagesReceiver>()
                     .ImplementedBy<MessagesReceiver>()
-                    .LifestyleSingleton());
+                    .LifestyleTransient());
             
             foreach (var type in Helper.GetAllHandlers())
             {
                 container.Register(
                     Component.For(type)
-                        .Named(type.FullName));
+                        .Named(type.FullName)
+                        .LifestyleTransient());
             }
         }
     }
