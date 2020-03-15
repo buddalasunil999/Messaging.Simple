@@ -19,6 +19,7 @@ steps:
   displayName: 'dotnet pack'
   inputs:
     command: pack
+    projects: Messaging.Simple/Messaging.Simple.csproj
     nobuild: true
     versioningScheme: byEnvVar
     versionEnvVar: VersionNumber
