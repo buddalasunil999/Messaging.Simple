@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Castle.MicroKernel;
+using Castle.MicroKernel.Lifestyle;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -10,14 +12,17 @@ namespace Messaging.Simple
     {
         private readonly IMessageLogger messageLogger;
         private readonly IHandlerFactory handlerFactory;
+        private readonly IKernel kernel;
 
         public Receiver(IMessageLogger messageLogger, 
             ConnectionConfiguration connectionConfiguration,
-            IHandlerFactory handlerFactory)
+            IHandlerFactory handlerFactory,
+            IKernel kernel)
             : base(messageLogger, connectionConfiguration)
         {
             this.messageLogger = messageLogger;
             this.handlerFactory = handlerFactory;
+            this.kernel = kernel;
         }
 
         public void Run(MessageConfiguration config)
@@ -34,9 +39,12 @@ namespace Messaging.Simple
                     var message = Encoding.UTF8.GetString(e.Body);
                     messageLogger.Info($" [x] Received '{e.RoutingKey}':'{message}'");
 
-                    var handler = handlerFactory.Resolve(config.Handler.FullName);
-                    handler.Handle(message);
-                    handlerFactory.Release(handler);
+                    using (kernel.RequireScope())
+                    {
+                        var handler = handlerFactory.Resolve(config.Handler.FullName);
+                        handler.Handle(message);
+                        handlerFactory.Release(handler);
+                    }
 
                     Channel.BasicAck(deliveryTag: e.DeliveryTag, multiple: false);
                 }
