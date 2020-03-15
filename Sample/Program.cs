@@ -43,17 +43,14 @@ namespace Messaging.Sample.Receiver
                 Component.For<ConnectionConfiguration>()
                     .Instance(new ConnectionConfiguration
                     {
-                        Protocol = "amqps",
-                        HostName = "localhost",
+                        HostName = "13.127.164.156",
                         Exchange = "test",
                         PoisionExchange = "poision",
                         PoisionQueueName = "poision-queue",
                         UndeliveredExchange = "undelivered",
                         UndeliveredQueueName = "undelivered-queue",
-                        //Port = 5672
-                        Port = 5671,
-                        UserName = "admin",
-                        Password = "admin"
+                        UserName = "guest",
+                        Password = "guest"
                     }),
                 Component.For<IMessageLogger>()
                     .ImplementedBy<ConsoleMessageLogger>()
