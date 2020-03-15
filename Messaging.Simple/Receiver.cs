@@ -39,7 +39,7 @@ namespace Messaging.Simple
                     var message = Encoding.UTF8.GetString(e.Body);
                     messageLogger.Info($" [x] Received '{e.RoutingKey}':'{message}'");
 
-                    using (kernel.RequireScope())
+                    using (kernel.BeginScope())
                     {
                         var handler = handlerFactory.Resolve(config.Handler.FullName);
                         handler.Handle(message);
