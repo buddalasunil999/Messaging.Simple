@@ -1,14 +1,15 @@
 ﻿using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace Messaging.Simple
 {
     public abstract class JsonMessageHandler<T> : IMessageHandler
     {
-        public void Handle(string message)
+        public async Task HandleAsync(string message)
         {
-            HandleData(JsonConvert.DeserializeObject<T>(message));
+            await HandleDataAsync(JsonConvert.DeserializeObject<T>(message));
         }
 
-        public abstract void HandleData(T message);
+        public abstract Task HandleDataAsync(T message);
     }
 }

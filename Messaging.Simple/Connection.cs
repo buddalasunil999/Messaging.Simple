@@ -21,7 +21,8 @@ namespace Messaging.Simple
                 HostName = connectionConfiguration.HostName,
                 AutomaticRecoveryEnabled = true,
                 UserName = connectionConfiguration.UserName,
-                Password = connectionConfiguration.Password                
+                Password = connectionConfiguration.Password,
+                DispatchConsumersAsync = true
             };
 
             connection = factory.CreateConnection();

@@ -31,8 +31,8 @@ namespace Messaging.Simple
 
             Channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
 
-            var consumer = new EventingBasicConsumer(Channel);
-            consumer.Received += (sender, e) =>
+            var consumer = new AsyncEventingBasicConsumer(Channel);
+            consumer.Received += async (sender, e) =>
             {
                 try
                 {
@@ -42,7 +42,7 @@ namespace Messaging.Simple
                     using (kernel.BeginScope())
                     {
                         var handler = handlerFactory.Resolve(config.Handler.FullName);
-                        handler.Handle(message);
+                        await handler.HandleAsync(message);
                         handlerFactory.Release(handler);
                     }
 

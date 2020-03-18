@@ -1,7 +1,9 @@
-﻿namespace Messaging.Simple
+﻿using System.Threading.Tasks;
+
+namespace Messaging.Simple
 {
     public interface IMessageHandler
     {
-        void Handle(string message);
+        Task HandleAsync(string message);
     }
 }

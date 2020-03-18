@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Messaging.Sample.Messages;
@@ -10,23 +11,25 @@ namespace Messaging.Sample.Receiver
 {
     public class Obj1MessageHandler : JsonMessageHandler<TestMessage>
     {
-        public override void HandleData(TestMessage message)
+        public override Task HandleDataAsync(TestMessage message)
         {
             Console.WriteLine("from first handler" + message);
+            return Task.CompletedTask;
         }
     }
 
     public class Obj1MessageHandler2 : JsonMessageHandler<TestMessage>
     {
-        public override void HandleData(TestMessage message)
+        public override Task HandleDataAsync(TestMessage message)
         {
             Console.WriteLine("from second handler" + message);
+            return Task.CompletedTask;
         }
     }
 
     public class Obj1MessageHandler3 : JsonMessageHandler<TestMessage>
     {
-        public override void HandleData(TestMessage message)
+        public override Task HandleDataAsync(TestMessage message)
         {
             Console.WriteLine("from third handler" + message);
             throw new Exception("failed for third");
