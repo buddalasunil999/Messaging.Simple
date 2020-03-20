@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Messaging.Simple.Tests", "M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Messaging.Sample.Receiver", "Sample\Messaging.Sample.Receiver.csproj", "{CFD5CD1B-FD21-48F6-993A-407EAFBFFD52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messaging.Sample.Sender", "Messaging.SenderSample\Messaging.Sample.Sender.csproj", "{D1E1A03D-60CC-4832-A541-0AD92D39F512}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Messaging.Sample.Sender", "Messaging.SenderSample\Messaging.Sample.Sender.csproj", "{D1E1A03D-60CC-4832-A541-0AD92D39F512}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messaging.Sample.Messages", "Messaging.Sample.Messages\Messaging.Sample.Messages.csproj", "{4B78F963-F5B6-45D1-9B91-5D40AABD8971}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Messaging.Sample.Messages", "Messaging.Sample.Messages\Messaging.Sample.Messages.csproj", "{4B78F963-F5B6-45D1-9B91-5D40AABD8971}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

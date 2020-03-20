@@ -2,24 +2,29 @@
 {
     public class MessagesReceiver : IMessagesReceiver
     {
-        private readonly Receiver receiver;
-        private readonly IMessageLogger messageLogger;
+        protected readonly Receiver receiver;
+        protected readonly IMessageLogger messageLogger;
+        protected readonly ConnectionConfiguration connectionConfiguration;
 
-        public MessagesReceiver(Receiver receiver, IMessageLogger messageLogger)
+        public MessagesReceiver(Receiver receiver,
+            IMessageLogger messageLogger,
+            ConnectionConfiguration connectionConfiguration)
         {
             this.receiver = receiver;
             this.messageLogger = messageLogger;
+            this.connectionConfiguration = connectionConfiguration;
         }
 
-        public void Run()
+        public virtual void Run()
         {
             messageLogger.Info($"Starting {typeof(MessagesReceiver)}");
             foreach (var handler in Helper.GetAllHandlers())
             {
-                receiver.Run(new MessageConfiguration
-                {
-                    Handler = handler
-                });
+                receiver.Run(connectionConfiguration.Exchange,
+                    new MessageConfiguration
+                    {
+                        Handler = handler
+                    });
                 messageLogger.Info($"Receiver for {handler}");
             }
         }

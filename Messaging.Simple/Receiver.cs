@@ -25,9 +25,9 @@ namespace Messaging.Simple
             this.kernel = kernel;
         }
 
-        public void Run(MessageConfiguration config)
+        public void Run(string exchange, MessageConfiguration config)
         {
-            Bind(config.Handler.FullName, config.RoutingKey, connectionConfiguration.Exchange);
+            Bind(config.Handler.FullName, config.RoutingKey, exchange);
 
             Channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
 

@@ -47,11 +47,12 @@ namespace Messaging.Sample.Receiver
                     .Instance(new ConnectionConfiguration
                     {
                         HostName = "localhost",
-                        Exchange = "test",
-                        PoisionExchange = "poision",
-                        PoisionQueueName = "poision-queue",
-                        UndeliveredExchange = "undelivered",
-                        UndeliveredQueueName = "undelivered-queue",
+                        Exchange = "sample.test",
+                        PoisionExchange = "sample.poision",
+                        DelayedExchange = "sample.delayed",
+                        PoisionQueueName = "sample.poision-queue",
+                        UndeliveredExchange = "sample.undelivered",
+                        UndeliveredQueueName = "sample.undelivered-queue",
                         UserName = "guest",
                         Password = "guest"
                     }),

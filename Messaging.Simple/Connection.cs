@@ -29,9 +29,9 @@ namespace Messaging.Simple
             Channel = connection.CreateModel();
             Channel.BasicReturn += Channel_BasicReturn;
 
-            Channel.ExchangeDeclare(exchange: connectionConfiguration.Exchange, type: "direct");
-            Channel.ExchangeDeclare(exchange: connectionConfiguration.PoisionExchange, type: "topic");
-            Channel.ExchangeDeclare(exchange: connectionConfiguration.UndeliveredExchange, type: "topic");
+            Channel.ExchangeDeclare(exchange: connectionConfiguration.Exchange, type: "topic", durable: true);
+            Channel.ExchangeDeclare(exchange: connectionConfiguration.PoisionExchange, type: "topic", durable: true);
+            Channel.ExchangeDeclare(exchange: connectionConfiguration.UndeliveredExchange, type: "topic", durable: true);
 
             Bind(connectionConfiguration.PoisionQueueName, "#", connectionConfiguration.PoisionExchange);
             Bind(connectionConfiguration.UndeliveredQueueName, "#", connectionConfiguration.UndeliveredExchange);
