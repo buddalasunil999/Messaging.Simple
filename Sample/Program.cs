@@ -43,8 +43,8 @@ namespace Messaging.Sample.Receiver
             var container = new WindsorContainer();
             container.Install(new MessagingInstaller());
             container.Register(
-                Component.For<ConnectionConfiguration>()
-                    .Instance(new ConnectionConfiguration
+                Component.For<RabbitMqConfiguration>()
+                    .Instance(new RabbitMqConfiguration
                     {
                         HostName = "localhost",
                         Exchange = "sample.test",

@@ -1,6 +1,6 @@
 ﻿namespace Messaging.Simple
 {
-    public class ConnectionConfiguration
+    public class RabbitMqConfiguration
     {
         public string HostName { get; set; }
         public string Exchange { get; set; }

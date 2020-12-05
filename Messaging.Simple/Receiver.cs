@@ -15,7 +15,7 @@ namespace Messaging.Simple
         private readonly IKernel kernel;
 
         public Receiver(IMessageLogger messageLogger, 
-            ConnectionConfiguration connectionConfiguration,
+            RabbitMqConfiguration connectionConfiguration,
             IHandlerFactory handlerFactory,
             IKernel kernel)
             : base(messageLogger, connectionConfiguration)

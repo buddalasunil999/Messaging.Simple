@@ -6,12 +6,12 @@ namespace Messaging.Simple
     public abstract class Connection : IDisposable
     {
         private readonly IMessageLogger messageLogger;
-        protected readonly ConnectionConfiguration connectionConfiguration;
+        protected readonly RabbitMqConfiguration connectionConfiguration;
         private readonly IConnection connection;
         protected readonly IModel Channel;
 
         protected Connection(IMessageLogger messageLogger,
-            ConnectionConfiguration configuration)
+            RabbitMqConfiguration configuration)
         {
             this.messageLogger = messageLogger;
             connectionConfiguration = configuration;

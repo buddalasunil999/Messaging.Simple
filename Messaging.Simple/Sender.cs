@@ -8,7 +8,7 @@ namespace Messaging.Simple
         private readonly IMessageLogger messageLogger;
 
         public Sender(IMessageLogger messageLogger,
-            ConnectionConfiguration connectionConfiguration)
+            RabbitMqConfiguration connectionConfiguration)
             : base(messageLogger, connectionConfiguration)
         {
             this.messageLogger = messageLogger;

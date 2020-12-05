@@ -5,10 +5,10 @@ namespace Messaging.Simple
     public class MessageDispatcher : IMessageDispatcher
     {
         private readonly IMessageLogger messageLogger;
-        private readonly ConnectionConfiguration connectionConfiguration;
+        private readonly RabbitMqConfiguration connectionConfiguration;
 
         public MessageDispatcher(IMessageLogger messageLogger,
-            ConnectionConfiguration connectionConfiguration)
+            RabbitMqConfiguration connectionConfiguration)
         {
             this.messageLogger = messageLogger;
             this.connectionConfiguration = connectionConfiguration;

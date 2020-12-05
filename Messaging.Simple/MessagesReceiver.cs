@@ -4,11 +4,11 @@
     {
         protected readonly Receiver receiver;
         protected readonly IMessageLogger messageLogger;
-        protected readonly ConnectionConfiguration connectionConfiguration;
+        protected readonly RabbitMqConfiguration connectionConfiguration;
 
         public MessagesReceiver(Receiver receiver,
             IMessageLogger messageLogger,
-            ConnectionConfiguration connectionConfiguration)
+            RabbitMqConfiguration connectionConfiguration)
         {
             this.receiver = receiver;
             this.messageLogger = messageLogger;
