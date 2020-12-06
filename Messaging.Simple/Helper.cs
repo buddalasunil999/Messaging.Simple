@@ -19,14 +19,14 @@ namespace Messaging.Simple
 
             var types = new List<Type>();
 
-            foreach(var assembly in assemblies)
+            foreach (var assembly in assemblies)
             {
                 var handlers = assembly?.GetTypes()
-                .Where(y => y.BaseType != null &&
-                y.BaseType.IsGenericType &&
-                y.BaseType.GetGenericTypeDefinition() == typeof(JsonMessageHandler<>));
+                .Where(y => !y.IsAbstract &&
+                            !y.IsInterface &&
+                            typeof(IMessageHandler).IsAssignableFrom(y));
 
-                if(handlers.Count() > 0)
+                if (handlers.Count() > 0)
                 {
                     types.AddRange(handlers);
                 }
