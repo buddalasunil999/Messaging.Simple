@@ -8,7 +8,6 @@
         public string Password { get; set; }
 
         public string PoisionExchange { get; set; }
-        public string PoisionQueueName { get; set; }
         public string UndeliveredExchange { get; set; }
         public string UndeliveredQueueName { get; set; }
         public string DelayedExchange { get; set; }

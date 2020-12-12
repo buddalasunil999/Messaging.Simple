@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using Castle.MicroKernel;
 using Castle.MicroKernel.Lifestyle;
@@ -13,19 +12,49 @@ namespace Messaging.Simple
         private readonly IMessageLogger messageLogger;
         private readonly IHandlerFactory handlerFactory;
         private readonly IKernel kernel;
+        private readonly IMessageDispatcher messageDispatcher;
 
-        public Receiver(IMessageLogger messageLogger, 
+        public Receiver(IMessageLogger messageLogger,
             RabbitMqConfiguration connectionConfiguration,
             IHandlerFactory handlerFactory,
-            IKernel kernel)
+            IKernel kernel,
+            IMessageDispatcher messageDispatcher)
             : base(messageLogger, connectionConfiguration)
         {
             this.messageLogger = messageLogger;
             this.handlerFactory = handlerFactory;
             this.kernel = kernel;
+            this.messageDispatcher = messageDispatcher;
         }
 
         public void Run(string exchange, MessageConfiguration config)
+        {
+            Run(exchange, config, e =>
+            {
+                var message = Encoding.UTF8.GetString(e.Body);
+
+                messageDispatcher.Send(new PoisionMessage
+                {
+                    OriginalMessage = message,
+                    Queue = config.Handler.FullName,
+                    RoutingKey = e.RoutingKey
+                },
+                connectionConfiguration.PoisionExchange);
+            });
+        }
+
+        public void RunPoision(string exchange, MessageConfiguration config)
+        {
+            Run(exchange, config, e =>
+            {
+                Channel.BasicPublish(exchange: connectionConfiguration.UndeliveredExchange,
+                        routingKey: e.RoutingKey,
+                        basicProperties: e.BasicProperties,
+                        body: e.Body);
+            });
+        }
+
+        private void Run(string exchange, MessageConfiguration config, Action<BasicDeliverEventArgs> onError)
         {
             Bind(config.Handler.FullName, config.RoutingKey, exchange);
 
@@ -51,19 +80,8 @@ namespace Messaging.Simple
                 catch (Exception exception)
                 {
                     Channel.BasicReject(deliveryTag: e.DeliveryTag, requeue: false);
-
-                    if (e.BasicProperties.Headers == null)
-                    {
-                        e.BasicProperties.Headers = new Dictionary<string, object>();
-                    }
-                    e.BasicProperties.Headers.Add("Queue", config.Handler.FullName);
-
-                    Channel.BasicPublish(exchange: connectionConfiguration.PoisionExchange,
-                        routingKey: config.RoutingKey,
-                        basicProperties: e.BasicProperties,
-                        body: e.Body);
-
                     messageLogger.Error(exception);
+                    onError(e);
                     throw;
                 }
             };

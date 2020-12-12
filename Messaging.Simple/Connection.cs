@@ -33,7 +33,6 @@ namespace Messaging.Simple
             Channel.ExchangeDeclare(exchange: connectionConfiguration.PoisionExchange, type: "topic", durable: true);
             Channel.ExchangeDeclare(exchange: connectionConfiguration.UndeliveredExchange, type: "topic", durable: true);
 
-            Bind(connectionConfiguration.PoisionQueueName, "#", connectionConfiguration.PoisionExchange);
             Bind(connectionConfiguration.UndeliveredQueueName, "#", connectionConfiguration.UndeliveredExchange);
         }
 
@@ -56,6 +55,10 @@ namespace Messaging.Simple
             Channel.QueueBind(queue: queue,
                 exchange: exchange,
                 routingKey: routingKey);
+
+            Channel.QueueBind(queue: queue,
+                exchange: exchange,
+                routingKey: queue);
         }
 
         public void Dispose()

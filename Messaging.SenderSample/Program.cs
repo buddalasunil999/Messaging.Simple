@@ -24,7 +24,6 @@ namespace Messaging.Sample.Sender
                         Exchange = "sample.test",
                         PoisionExchange = "sample.poision",
                         DelayedExchange = "sample.delayed",
-                        PoisionQueueName = "sample.poision-queue",
                         UndeliveredExchange = "sample.undelivered",
                         UndeliveredQueueName = "sample.undelivered-queue",
                         UserName = "guest",
@@ -37,6 +36,7 @@ namespace Messaging.Sample.Sender
             var dispatcher = container.Kernel.Resolve<IMessageDispatcher>();
 
             dispatcher.Send(new TestMessage { Id = 2 });
+            dispatcher.Send(new TestMessage2 { Id = 10 });
 
             Console.ReadKey();
         }

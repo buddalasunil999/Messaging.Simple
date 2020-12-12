@@ -20,11 +20,23 @@
             messageLogger.Info($"Starting {typeof(MessagesReceiver)}");
             foreach (var handler in Helper.GetAllHandlers())
             {
-                receiver.Run(connectionConfiguration.Exchange,
-                    new MessageConfiguration
+                if (typeof(PoisionMessageHandler).IsAssignableFrom(handler))
+                {
+                    receiver.RunPoision(connectionConfiguration.PoisionExchange,
+                        new MessageConfiguration
                     {
+                        RoutingKey = "#",
                         Handler = handler
                     });
+                }
+                else
+                {
+                    receiver.Run(connectionConfiguration.Exchange,
+                        new MessageConfiguration
+                        {
+                            Handler = handler
+                        });
+                }
                 messageLogger.Info($"Receiver for {handler}");
             }
         }
