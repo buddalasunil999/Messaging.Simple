@@ -1,6 +1,6 @@
 ﻿namespace Messaging.Simple
 {
-    public class PoisionMessage
+    public class PoisonMessage
     {
         public string OriginalMessage { get; set; }
         public string Queue { get; set; }

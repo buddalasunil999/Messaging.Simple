@@ -30,7 +30,7 @@ namespace Messaging.Simple
             Channel.BasicReturn += Channel_BasicReturn;
 
             Channel.ExchangeDeclare(exchange: connectionConfiguration.Exchange, type: "topic", durable: true);
-            Channel.ExchangeDeclare(exchange: connectionConfiguration.PoisionExchange, type: "topic", durable: true);
+            Channel.ExchangeDeclare(exchange: connectionConfiguration.PoisonExchange, type: "topic", durable: true);
             Channel.ExchangeDeclare(exchange: connectionConfiguration.UndeliveredExchange, type: "topic", durable: true);
 
             Bind(connectionConfiguration.UndeliveredQueueName, "#", connectionConfiguration.UndeliveredExchange);

@@ -22,7 +22,7 @@ namespace Messaging.Sample.Sender
                     {
                         HostName = "localhost",
                         Exchange = "sample.test",
-                        PoisionExchange = "sample.poision",
+                        PoisonExchange = "sample.poison",
                         DelayedExchange = "sample.delayed",
                         UndeliveredExchange = "sample.undelivered",
                         UndeliveredQueueName = "sample.undelivered-queue",

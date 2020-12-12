@@ -20,9 +20,9 @@
             messageLogger.Info($"Starting {typeof(MessagesReceiver)}");
             foreach (var handler in Helper.GetAllHandlers())
             {
-                if (typeof(PoisionMessageHandler).IsAssignableFrom(handler))
+                if (typeof(PoisonMessageHandler).IsAssignableFrom(handler))
                 {
-                    receiver.RunPoision(connectionConfiguration.PoisionExchange,
+                    receiver.RunPoison(connectionConfiguration.PoisonExchange,
                         new MessageConfiguration
                     {
                         RoutingKey = "#",

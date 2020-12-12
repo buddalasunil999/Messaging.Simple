@@ -33,17 +33,17 @@ namespace Messaging.Simple
             {
                 var message = Encoding.UTF8.GetString(e.Body);
 
-                messageDispatcher.Send(new PoisionMessage
+                messageDispatcher.Send(new PoisonMessage
                 {
                     OriginalMessage = message,
                     Queue = config.Handler.FullName,
                     RoutingKey = e.RoutingKey
                 },
-                connectionConfiguration.PoisionExchange);
+                connectionConfiguration.PoisonExchange);
             });
         }
 
-        public void RunPoision(string exchange, MessageConfiguration config)
+        public void RunPoison(string exchange, MessageConfiguration config)
         {
             Run(exchange, config, e =>
             {
