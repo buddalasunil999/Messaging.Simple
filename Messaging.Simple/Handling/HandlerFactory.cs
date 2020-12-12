@@ -11,9 +11,9 @@ namespace Messaging.Simple
             this.kernel = kernel;
         }
 
-        public IMessageHandler Resolve(string routingKey)
+        public IMessageHandler Resolve(string bindingKey)
         {
-            return kernel.Resolve<IMessageHandler>(routingKey);
+            return kernel.Resolve<IMessageHandler>(bindingKey);
         }
 
         public void Release(IMessageHandler messageHandler)

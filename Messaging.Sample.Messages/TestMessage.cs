@@ -11,4 +11,9 @@
             return $"{Name} {Id} {Role}";
         }
     }
+
+    public class TestMessage2
+    {
+        public int Id { get; set; }
+    }
 }

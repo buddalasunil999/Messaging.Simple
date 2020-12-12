@@ -15,7 +15,8 @@ namespace Messaging.Simple
         }
 
         public virtual void Send(string routingKey,
-            string message)
+            string message,
+            string exchange)
         {
             var properties = Channel.CreateBasicProperties();
             properties.Persistent = true;
@@ -23,7 +24,7 @@ namespace Messaging.Simple
             Send(routingKey,
                 message,
                 properties,
-                connectionConfiguration.Exchange);
+                exchange);
         }
 
         public virtual void Send(string routingKey,

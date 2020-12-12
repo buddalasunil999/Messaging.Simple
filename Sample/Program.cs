@@ -36,6 +36,15 @@ namespace Messaging.Sample.Receiver
         }
     }
 
+    public class TestPoisonMessageHandler : PoisonMessageHandler
+    {
+        public override Task HandleDataAsync(PoisonMessage message)
+        {
+            Console.WriteLine($"from TestPoisonMessageHandler: {message.OriginalMessage}, {message.Queue}");
+            throw new Exception("failed for poison");
+        }
+    }
+
     class Program
     {
         static void Main(string[] args)
@@ -48,9 +57,8 @@ namespace Messaging.Sample.Receiver
                     {
                         HostName = "localhost",
                         Exchange = "sample.test",
-                        PoisionExchange = "sample.poision",
+                        PoisonExchange = "sample.poison",
                         DelayedExchange = "sample.delayed",
-                        PoisionQueueName = "sample.poision-queue",
                         UndeliveredExchange = "sample.undelivered",
                         UndeliveredQueueName = "sample.undelivered-queue",
                         UserName = "guest",

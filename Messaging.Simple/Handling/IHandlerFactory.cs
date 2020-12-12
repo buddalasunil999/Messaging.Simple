@@ -1,8 +1,10 @@
-﻿namespace Messaging.Simple
+﻿using System;
+
+namespace Messaging.Simple
 {
     public interface IHandlerFactory
     {
         void Release(IMessageHandler messageHandler);
-        IMessageHandler Resolve(string routingKey);
+        IMessageHandler Resolve(string bindingKey);
     }
 }
