@@ -11,5 +11,8 @@
         public string UndeliveredExchange { get; set; }
         public string UndeliveredQueueName { get; set; }
         public string DelayedExchange { get; set; }
+
+        public int SendRetryCount { get; set; } = 5;
+        public int RetryWaitTimeInSeconds { get; set; } = 10;
     }
 }
