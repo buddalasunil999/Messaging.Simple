@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Messaging.Simple
 {
-    public class Sender : Connection
+    internal class Sender : Connection
     {
         private readonly IMessageLogger messageLogger;
 
