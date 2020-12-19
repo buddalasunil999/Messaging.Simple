@@ -33,7 +33,7 @@ namespace Messaging.Simple
             {
                 var message = Encoding.UTF8.GetString(e.Body);
 
-                messageDispatcher.Send(new PoisonMessage
+                messageDispatcher.Send("#", new PoisonMessage
                 {
                     OriginalMessage = message,
                     Queue = config.Handler.FullName,
