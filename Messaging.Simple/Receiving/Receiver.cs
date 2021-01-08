@@ -63,9 +63,9 @@ namespace Messaging.Simple
             var consumer = new AsyncEventingBasicConsumer(Channel);
             consumer.Received += async (sender, e) =>
             {
+                var message = Encoding.UTF8.GetString(e.Body);
                 try
                 {
-                    var message = Encoding.UTF8.GetString(e.Body);
                     messageLogger.Info($" [x] Received '{e.RoutingKey}':'{message}'");
 
                     using (kernel.BeginScope())
@@ -79,9 +79,23 @@ namespace Messaging.Simple
                 }
                 catch (Exception exception)
                 {
-                    Channel.BasicReject(deliveryTag: e.DeliveryTag, requeue: false);
-                    messageLogger.Error(exception);
-                    onError(e);
+                    //var parsedObj = JsonConvert.DeserializeObject<Message>(message);
+                    //var newObj = JsonConvert.DeserializeObject<dynamic>(message);
+                    //newObj.RetryCount = parsedObj.RetryCount + 1;
+                    //e.Body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(newObj));
+
+                    if (!e.Redelivered)
+                    {
+                        Channel.BasicReject(deliveryTag: e.DeliveryTag, requeue: true);
+                        messageLogger.Error(exception);
+                    }
+                    else
+                    {
+                        Channel.BasicReject(deliveryTag: e.DeliveryTag, requeue: false);
+                        messageLogger.Error(exception);
+                        onError(e);
+                    }
+
                     throw;
                 }
             };
