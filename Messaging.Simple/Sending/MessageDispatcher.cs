@@ -54,11 +54,6 @@ namespace Messaging.Simple
             Send(routingKey, obj, connectionConfiguration.Exchange);
         }
 
-        public void Send<T>(T obj, string exchange)
-        {
-            Send(typeof(T).ToString(), obj, exchange);
-        }
-
         public void Send<T>(T obj)
         {
             Send(typeof(T).ToString(), obj, connectionConfiguration.Exchange);
