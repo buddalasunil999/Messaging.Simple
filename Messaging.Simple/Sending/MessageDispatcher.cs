@@ -49,7 +49,7 @@ namespace Messaging.Simple
             }
         }
 
-        public void Send(string routingKey, object obj)
+        public void Send(string routingKey, string obj)
         {
             Send(routingKey, obj, connectionConfiguration.Exchange);
         }
