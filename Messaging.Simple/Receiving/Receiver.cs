@@ -79,11 +79,6 @@ namespace Messaging.Simple
                 }
                 catch (Exception exception)
                 {
-                    //var parsedObj = JsonConvert.DeserializeObject<Message>(message);
-                    //var newObj = JsonConvert.DeserializeObject<dynamic>(message);
-                    //newObj.RetryCount = parsedObj.RetryCount + 1;
-                    //e.Body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(newObj));
-
                     if (!e.Redelivered)
                     {
                         Channel.BasicReject(deliveryTag: e.DeliveryTag, requeue: true);
