@@ -35,13 +35,13 @@ namespace Messaging.Simple
                     Send(routingKey, JsonConvert.SerializeObject(obj), exchange);
                     break;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     currentRetry++;
 
                     if (currentRetry > connectionConfiguration.SendRetryCount)
                     {
-                        throw;
+                        messageLogger.Error(ex);
                     }
                 }
 
