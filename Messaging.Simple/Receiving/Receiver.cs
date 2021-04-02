@@ -2,6 +2,7 @@
 using System.Text;
 using Castle.MicroKernel;
 using Castle.MicroKernel.Lifestyle;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -98,6 +99,31 @@ namespace Messaging.Simple
             Channel.BasicConsume(queue: config.Handler.FullName,
                 autoAck: false,
                 consumer: consumer);
+        }
+
+        public bool RePublishUndeliveredMessage()
+        {
+            var result = Channel.BasicGet(connectionConfiguration.UndeliveredQueueName, true);
+            if (result != null)
+            {
+                IBasicProperties props = result.BasicProperties;
+                var message = Encoding.UTF8.GetString(result.Body);
+                var poisonMessage = JsonConvert.DeserializeObject<PoisonMessage>(message);
+
+                if (!string.IsNullOrEmpty(poisonMessage.Queue))
+                {
+                    Channel.BasicPublish(exchange: connectionConfiguration.Exchange,
+                            routingKey: poisonMessage.Queue,
+                            basicProperties: props,
+                            body: Encoding.UTF8.GetBytes(poisonMessage.OriginalMessage));
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

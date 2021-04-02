@@ -3,5 +3,6 @@
     public interface IMessagesReceiver
     {
         void Run();
+        void ProcessUndeliveredMessages();
     }
 }

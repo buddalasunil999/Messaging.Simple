@@ -71,6 +71,8 @@ namespace Messaging.Sample.Receiver
             var receiver = container.Kernel.Resolve<IMessagesReceiver>();
             receiver.Run();
 
+            receiver.ProcessUndeliveredMessages();
+
             Console.ReadKey();
         }
     }

@@ -24,10 +24,10 @@
                 {
                     receiver.RunPoison(connectionConfiguration.PoisonExchange,
                         new MessageConfiguration
-                    {
-                        RoutingKey = "#",
-                        Handler = handler
-                    });
+                        {
+                            RoutingKey = "#",
+                            Handler = handler
+                        });
                 }
                 else
                 {
@@ -39,6 +39,16 @@
                 }
                 messageLogger.Info($"Receiver for {handler}");
             }
+        }
+
+        public virtual void ProcessUndeliveredMessages()
+        {
+            bool hasMore;
+            do
+            {
+                hasMore = receiver.RePublishUndeliveredMessage();
+            }
+            while (hasMore);
         }
     }
 }
