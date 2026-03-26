@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Company>PSGL Tech Limited</Company>
+    <Visibility>false</Visibility>
+    <Guid>3BD9E058-1E1F-47AB-B719-B99A12241174</Guid>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Version>1.0.0.0</Version>
+    <InformationalVersion>1.0.0.0</InformationalVersion>
+    <Authors>PSGL Tech Limited</Authors>
+    <RepositoryUrl>https://PSGLTech@dev.azure.com/PSGLTech</RepositoryUrl>
+    <PackageProjectUrl>https://PSGLTech@dev.azure.com/PSGLTech</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Castle.Windsor" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Messaging.Simple\Messaging.Simple.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../LICENSE.txt" Pack="true" PackagePath="LICENSE.txt" />
+  </ItemGroup>
+
+</Project>

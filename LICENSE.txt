@@ -1,0 +1,31 @@
+PSGL Tech Limited Software License Agreement
+
+1. Definitions
+   - "Licensed Libraries" refer to the .NET software libraries made available in this repository.
+   - "Licensee" refers collectively to DonateKart and Devaseva.
+   - "Licensor" refers to PSGL Tech Limited.
+
+2. Grant of License
+   - Licensor hereby grants Licensee a non-exclusive, non-transferable, limited license to use the Licensed Libraries solely for their internal business operations. This license does not include the right to sublicense, sell, or distribute the Licensed Libraries.
+
+3. Restrictions
+   - Licensee shall not replicate, copy, modify, or distribute the Licensed Libraries' source code without prior written permission from the Licensor.
+   - Licensee shall not use the Licensed Libraries for any purpose not expressly permitted by this License Agreement.
+
+4. Ownership
+   - The Licensed Libraries are and shall remain the sole property of the Licensor. This License does not grant the Licensee any rights to the intellectual property of the Licensed Libraries, except as expressly stated in this Agreement.
+
+5. Contributions
+   - Any modifications, enhancements, or derivative works of the Licensed Libraries contributed by the Licensee or any third party become the property of the Licensor and fall under the same terms and conditions as the original Licensed Libraries.
+   - Contributors must agree to relinquish ownership rights to any contributions to the Licensed Libraries prior to their inclusion in the repository.
+
+6. Payment
+   - Licensee agrees to pay Licensor a fee for the use of the Licensed Libraries, as agreed separately between the parties.
+
+7. Termination
+   - This License is effective until terminated. Licensor may terminate this License immediately if Licensee fails to comply with any of its terms and conditions. Upon termination, Licensee must cease all use of the Licensed Libraries and delete all copies.
+
+8. Miscellaneous
+   - This License Agreement shall be governed by the laws of New Zealand. Any disputes arising out of or related to this Agreement shall be subject to the exclusive jurisdiction of the courts in this region.
+
+By using or contributing to the Licensed Libraries, you acknowledge that you have read, understood, and agree to be bound by the terms of this License Agreement.
